@@ -23,9 +23,11 @@ description: Route @gemma, @qwen and @nemotron prompts to local Ollama models vi
 
 ---
 
-## Chế độ 2: Smart Router (tự động)
+## Chế độ 2: Smart Router (Cross-Check Multi-Agent)
 
-Khi người dùng **KHÔNG** chỉ định `@model`, agent PHẢI phân loại prompt và gọi `ollama/ask_auto` với `task_type` phù hợp.
+Khi người dùng **KHÔNG** chỉ định `@model`, hệ thống sẽ tự động thực hiện **quy trình 2 bước (Cross-Check)**:
+1. Phân loại câu hỏi bằng từ khóa (keyword matching) để giao cho chuyên gia (Primary Model) tạo bản nháp.
+2. Tự động giao cho Gemma4 26B làm người phản biện (Reviewer Model) để kiểm tra, sửa lỗi và chốt kết quả cuối cùng trước khi trả về. (Nếu bản thân chuyên gia đã là Gemma, bước này được bỏ qua).
 
 ### Bảng phân loại task → model
 
@@ -40,9 +42,9 @@ Khi người dùng **KHÔNG** chỉ định `@model`, agent PHẢI phân loại 
 
 1. Prompt chứa **code block**, **tên hàm/class**, **import**, **syntax lỗi** → `code`
 2. Prompt yêu cầu **tính toán**, **chứng minh**, **so sánh phương án**, **phân tích số liệu** → `reasoning`
-3. Prompt **ngắn ≤200 ký tự** HOẶC chứa từ khóa đơn giản (dịch, nghĩa là, là gì, hello) → `quick`
-4. Prompt **dài >500 ký tự** hoặc yêu cầu phân tích chuyên sâu → `general`
-5. Khi **kết hợp nhiều loại**, ưu tiên: `code` > `reasoning` > `general` > `quick`
+3. Prompt chứa các lệnh giao tiếp, hỏi đáp đơn giản (dịch, nghĩa là, là gì, hello) → `quick`
+4. Các prompt còn lại → `general`
+5. Không còn xét dựa trên độ dài chuỗi ký tự. Bất kể độ dài, hệ thống chỉ tập trung vào ngữ nghĩa và từ khóa. Mọi kết quả từ `code` và `reasoning` đều sẽ phải qua `Gemma` kiểm tra lại.
 
 ### Ví dụ phân loại
 
