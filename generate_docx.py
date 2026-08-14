@@ -14,7 +14,9 @@ def get_mermaid_image(mermaid_text, output_path):
     if response.status_code == 200:
         with open(output_path, 'wb') as f:
             f.write(response.content)
+        print(f"Downloaded {output_path} successfully.")
         return True
+    print(f"Failed to download {output_path}. Status: {response.status_code}, URL length: {len(url)}")
     return False
 
 # Create document
@@ -80,7 +82,7 @@ if get_mermaid_image(mermaid_2, 'logic.png'):
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     r = p.add_run()
-    r.add_picture('logic.png', width=Inches(6.0))
+    r.add_picture('logic.png', height=Inches(6.5))
 
 doc.add_heading('4. Danh sách Models (Inventory)', level=1)
 table = doc.add_table(rows=1, cols=6)
@@ -136,5 +138,6 @@ for i, step in enumerate(steps, 1):
     doc.add_paragraph(f"{i}. {step}", style='List Number')
 
 # Save document
+doc.save(r'C:\DEMO AI AGENT\ollama-smart-router\Ollama_Smart_Router_Documentation.docx')
 doc.save(r'C:\DEMO AI AGENT\Ollama_Smart_Router_Documentation.docx')
 print("Document generated successfully.")
