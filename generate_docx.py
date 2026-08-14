@@ -60,8 +60,8 @@ if get_mermaid_image(mermaid_1, 'arch.png'):
     r.add_picture('arch.png', width=Inches(6.0))
 
 doc.add_heading('3. Cơ chế Multi-Agent Cross-Check', level=1)
-mermaid_2 = """%%{init: {'themeVariables': {'fontSize': '28px'}}}%%
-flowchart LR
+mermaid_2 = """%%{init: {'themeVariables': {'fontSize': '56px'}}}%%
+flowchart TD
     P["Prompt"] --> K1{"Phân loại\\nbằng Keywords"}
     K1 -->|Code| M1["Primary: Qwen"]
     K1 -->|Reasoning| M2["Primary: Nemotron"]
