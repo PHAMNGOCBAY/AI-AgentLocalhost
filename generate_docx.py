@@ -26,6 +26,31 @@ doc = Document()
 title = doc.add_heading('TÀI LIỆU KỸ THUẬT: OLLAMA SMART ROUTER V4', 0)
 title.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
+# Thêm các Danh mục theo quy chuẩn
+doc.add_heading('MỤC LỤC', level=1)
+doc.add_paragraph('1. Tổng quan các thảo luận')
+doc.add_paragraph('2. Kiến trúc hệ thống')
+doc.add_paragraph('3. Cơ chế Multi-Agent Cross-Check')
+doc.add_paragraph('4. Danh sách Models (Inventory)')
+doc.add_paragraph('5. Tools Tích Hợp (MCP)')
+doc.add_paragraph('6. Quản lý hệ thống tự động cài đặt')
+
+doc.add_heading('DANH MỤC HÌNH ẢNH', level=1)
+doc.add_paragraph('Hình 1: Sơ đồ khối luồng xử lý và định tuyến từ Prompt của người dùng')
+doc.add_paragraph('Hình 2: Kiến trúc phân loại và kiểm tra chéo (Cross-Check) đa tác tử')
+
+doc.add_heading('DANH MỤC BẢNG BIỂU', level=1)
+doc.add_paragraph('Bảng 1: Danh sách Models (Inventory)')
+doc.add_paragraph('Bảng 2: Tools Tích Hợp (MCP)')
+
+doc.add_heading('DANH MỤC TỪ VIẾT TẮT', level=1)
+doc.add_paragraph('- AI: Artificial Intelligence')
+doc.add_paragraph('- MCP: Model Context Protocol')
+doc.add_paragraph('- VRAM: Video Random Access Memory')
+doc.add_paragraph('- TOC: Table of Contents')
+
+doc.add_page_break()
+
 doc.add_heading('1. Tổng quan các thảo luận', level=1)
 doc.add_paragraph(
     'Dự án phát triển hệ thống Smart Router cho phép tự động định tuyến (route) câu hỏi (prompt) '
@@ -60,6 +85,9 @@ if get_mermaid_image(mermaid_1, 'arch.png'):
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     r = p.add_run()
     r.add_picture('arch.png', width=Inches(6.0))
+    p_caption = doc.add_paragraph('Hình 1: Sơ đồ khối luồng xử lý và định tuyến từ Prompt của người dùng')
+    p_caption.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_caption.style = 'Caption'
 
 doc.add_heading('3. Cơ chế Multi-Agent Cross-Check', level=1)
 mermaid_2 = """%%{init: {'themeVariables': {'fontSize': '56px'}}}%%
@@ -83,8 +111,13 @@ if get_mermaid_image(mermaid_2, 'logic.png'):
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     r = p.add_run()
     r.add_picture('logic.png', height=Inches(6.5))
+    p_caption2 = doc.add_paragraph('Hình 2: Kiến trúc phân loại và kiểm tra chéo (Cross-Check) đa tác tử')
+    p_caption2.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_caption2.style = 'Caption'
 
 doc.add_heading('4. Danh sách Models (Inventory)', level=1)
+p_tab1 = doc.add_paragraph('Bảng 1: Danh sách Models (Inventory)')
+p_tab1.alignment = WD_ALIGN_PARAGRAPH.CENTER
 table = doc.add_table(rows=1, cols=6)
 table.style = 'Table Grid'
 hdr_cells = table.rows[0].cells
@@ -103,6 +136,8 @@ for item in data:
         row_cells[i].text = text
 
 doc.add_heading('5. Tools Tích Hợp (MCP)', level=1)
+p_tab2 = doc.add_paragraph('Bảng 2: Tools Tích Hợp (MCP)')
+p_tab2.alignment = WD_ALIGN_PARAGRAPH.CENTER
 table2 = doc.add_table(rows=1, cols=3)
 table2.style = 'Table Grid'
 hdr = table2.rows[0].cells
