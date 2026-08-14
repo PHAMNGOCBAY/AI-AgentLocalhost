@@ -36,7 +36,8 @@ doc.add_paragraph('- Các yêu cầu Suy luận (toán/logic/địa kỹ thuật
 doc.add_paragraph('- Các yêu cầu Chung/Nhanh (phân tích, dịch, hỏi đáp) -> Gemma4 26B', style='List Bullet')
 
 doc.add_heading('2. Kiến trúc hệ thống', level=1)
-mermaid_1 = """flowchart TD
+mermaid_1 = """%%{init: {'themeVariables': {'fontSize': '28px'}}}%%
+flowchart TD
     U["Người dùng gửi prompt"] --> D{"Có @model?"}
     D -->|"@gemma"| G26["ask_gemma: Gemma4 26B (17GB)"]
     D -->|"@qwen"| Q["ask_qwen: Qwen Coder 32B (20GB)"]
@@ -59,7 +60,8 @@ if get_mermaid_image(mermaid_1, 'arch.png'):
     r.add_picture('arch.png', width=Inches(6.0))
 
 doc.add_heading('3. Cơ chế Multi-Agent Cross-Check', level=1)
-mermaid_2 = """flowchart LR
+mermaid_2 = """%%{init: {'themeVariables': {'fontSize': '28px'}}}%%
+flowchart LR
     P["Prompt"] --> K1{"Phân loại\\nbằng Keywords"}
     K1 -->|Code| M1["Primary: Qwen"]
     K1 -->|Reasoning| M2["Primary: Nemotron"]
