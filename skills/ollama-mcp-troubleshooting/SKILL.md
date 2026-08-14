@@ -78,7 +78,7 @@ if method == "notifications/initialized":
 
 ```python
 MODELS = {
-    "gemma":    {"primary": "gemma4:26b",    "fallback": "gemma4:e4b"},
+    "gemma":       {"primary": "gemma4:26b",                   "fallback": None},
     "qwen":     {"primary": "qwen3.5:latest", "fallback": None},
     "nemotron": {"primary": "nemotron-3.5-lightning:latest", "fallback": None},
 }

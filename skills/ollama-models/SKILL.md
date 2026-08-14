@@ -9,8 +9,7 @@ description: Route @gemma, @qwen and @nemotron prompts to local Ollama models vi
 
 | Model | Params | VRAM | Context | Thế mạnh |
 |-------|--------|------|---------|----------|
-| **Gemma4 26B** | 25.8B | 17 GB | 262K | Suy luận tổng quát phức tạp, phân tích tài liệu dài, báo cáo |
-| **Gemma4 E4B** | 8.0B | 9.6 GB | 131K | Task đơn giản nhanh: dịch, định nghĩa, hỏi đáp ngắn (~3x nhanh hơn 26B) |
+| **Gemma4 26B** | 25.8B | 17 GB | 262K | Suy luận tổng quát phức tạp, phân tích tài liệu dài, báo cáo, hỏi đáp ngắn |
 | **Qwen 2.5 Coder 32B** | 32B | 20 GB | 128K | Viết code, debug, refactor, code review, SQL, regex, unit test |
 | **Nemotron 3.5 Lightning** | 42B | 25 GB | 128K | Toán, logic, suy luận phức tạp, phân tích địa kỹ thuật, kết cấu |
 
@@ -34,8 +33,8 @@ Khi người dùng **KHÔNG** chỉ định `@model`, agent PHẢI phân loại 
 |-----------|-------|--------------|
 | `code` | **Qwen 2.5 Coder 32B** | Viết/sửa code, debug, refactor, code review, API, script, SQL, regex, unit test, chuyển đổi ngôn ngữ |
 | `reasoning` | **Nemotron 3.5 Lightning** | Toán, logic, suy luận nhiều bước, phân tích dữ liệu số, so sánh phương án, địa kỹ thuật, kết cấu, tính toán kỹ thuật |
-| `general` | **Gemma4 26B** | Phân tích tài liệu dài, viết báo cáo, tóm tắt phức tạp, soạn email chuyên nghiệp, review nội dung >500 ký tự |
-| `quick` | **Gemma4 E4B** | Dịch 1-2 câu, định nghĩa thuật ngữ, hỏi đáp đơn giản, câu hỏi yes/no, prompt ≤200 ký tự |
+| `general` | **Gemma4 26B** | Phân tích tài liệu dài, viết báo cáo, tóm tắt phức tạp, soạn email chuyên nghiệp, dịch, hỏi đáp |
+| `quick` | **Gemma4 26B** | Dịch 1-2 câu, định nghĩa thuật ngữ, hỏi đáp đơn giản, câu hỏi yes/no, prompt ≤200 ký tự |
 
 ### Quy tắc phân loại
 
@@ -54,8 +53,8 @@ Khi người dùng **KHÔNG** chỉ định `@model`, agent PHẢI phân loại 
 "So sánh 3 phương án móng cọc cho nền đất yếu"        → reasoning → Nemotron
 "Phân tích báo cáo khảo sát địa chất 50 trang"        → general  → Gemma4 26B
 "Viết báo cáo tóm tắt kết quả thí nghiệm SPT"        → general  → Gemma4 26B
-"Dịch: Hello world"                                   → quick    → Gemma4 E4B
-"BIM là gì?"                                          → quick    → Gemma4 E4B
+"Dịch: Hello world"                                   → quick    → Gemma4 26B
+"BIM là gì?"                                          → quick    → Gemma4 26B
 ```
 
 ### Cách gọi
@@ -74,6 +73,6 @@ Nếu bỏ trống `task_type`, server tự phân loại bằng keyword matching
 |------|-------|----------|
 | `ask_auto` | Tự chọn | Mặc định cho mọi prompt không có `@model` |
 | `ask_gemma` | Gemma4 26B | `@gemma` hoặc cần phân tích dài |
-| `ask_gemma_lite` | Gemma4 E4B | Cần tốc độ, task đơn giản |
+
 | `ask_qwen` | Qwen 2.5 Coder 32B | `@qwen` hoặc task code |
 | `ask_nemotron` | Nemotron 3.5 | `@nemotron` hoặc task reasoning |

@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """Ollama Smart Router v4 - auto-selects best model including Gemma4 26B/E4B split."""
 
 import sys
@@ -12,8 +12,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="repla
 
 # -- Model registry --
 MODELS = {
-    "gemma_full":  {"primary": "gemma4:26b",                   "fallback": "gemma4:e4b"},
-    "gemma_lite":  {"primary": "gemma4:e4b",                   "fallback": "gemma4:26b"},
+    "gemma":       {"primary": "gemma4:26b",                   "fallback": None},
     "qwen":        {"primary": "qwen2.5-coder:32b",            "fallback": None},
     "nemotron":    {"primary": "nemotron-3.5-lightning:latest", "fallback": None},
 }
@@ -22,8 +21,8 @@ MODELS = {
 TASK_ROUTE = {
     "code":      "qwen",       # Qwen 2.5 Coder 32B
     "reasoning": "nemotron",   # Nemotron 3.5 Lightning
-    "general":   "gemma_full", # Gemma4 26B  - complex general tasks
-    "quick":     "gemma_lite", # Gemma4 E4B  - fast simple tasks
+    "general":   "gemma",      # Gemma4 26B  - complex general tasks
+    "quick":     "gemma",      # Gemma4 26B  - fast simple tasks (now unified)
 }
 
 # -- Keyword classifiers --
@@ -156,7 +155,7 @@ TOOL_DEFINITIONS = [
                 "task_type": {
                     "type": "string",
                     "enum": ["code", "reasoning", "general", "quick"],
-                    "description": "code=programming, reasoning=math/logic, general=complex text (26B), quick=simple/short tasks (E4B). Auto-detected if omitted."
+                    "description": "code=programming, reasoning=math/logic, general=complex text (26B), quick=simple/short tasks (26B). Auto-detected if omitted."
                 }
             },
             "required": ["prompt"],
@@ -171,15 +170,7 @@ TOOL_DEFINITIONS = [
             "required": ["prompt"],
         },
     },
-    {
-        "name": "ask_gemma_lite",
-        "description": "Gemma4 E4B - fast responses for simple tasks: translate, define, short Q&A (9.6GB, 131K context, ~3x faster)",
-        "inputSchema": {
-            "type": "object",
-            "properties": {"prompt": {"type": "string", "description": "The prompt to send"}},
-            "required": ["prompt"],
-        },
-    },
+
     {
         "name": "ask_qwen",
         "description": "Qwen 2.5 Coder 32B - code generation, debugging, refactoring, code review",
@@ -201,8 +192,7 @@ TOOL_DEFINITIONS = [
 ]
 
 TOOL_TO_MODEL = {
-    "ask_gemma":      "gemma_full",
-    "ask_gemma_lite": "gemma_lite",
+    "ask_gemma":      "gemma",
     "ask_qwen":       "qwen",
     "ask_nemotron":   "nemotron",
 }

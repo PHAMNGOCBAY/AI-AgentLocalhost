@@ -148,7 +148,7 @@ echo.
 echo  [7/9] Ollama models
 echo.
 echo    ┌──────────────────────────────────────────┐
-echo    │  gemma4:e4b                  ~  9.6 GB   │
+
 echo    │  gemma4:26b                  ~ 17   GB   │
 echo    │  qwen2.5-coder:32b          ~ 20   GB   │
 echo    │  nemotron-3.5-lightning      ~ 25   GB   │
@@ -165,7 +165,7 @@ set "NEED_QWEN=1"
 set "NEED_NEMO=1"
 
 for /f "tokens=1" %%m in ('ollama list 2^>nul ^| findstr /V "NAME"') do (
-    if "%%m"=="gemma4:e4b" set "NEED_E4B=0"
+
     if "%%m"=="gemma4:26b" set "NEED_26B=0"
     if "%%m"=="qwen2.5-coder:32b" set "NEED_QWEN=0"
     if "%%m"=="nemotron-3.5-lightning:latest" set "NEED_NEMO=0"
@@ -182,11 +182,7 @@ if /i "%PULL_CHOICE%"=="N" goto :EXTENSIONS
 if /i "%PULL_CHOICE%"=="S" goto :SELECT_MODELS
 
 :: Pull all missing
-if "%NEED_E4B%"=="1" (
-    echo.
-    echo    Pulling gemma4:e4b...
-    ollama pull gemma4:e4b
-)
+
 if "%NEED_26B%"=="1" (
     echo.
     echo    Pulling gemma4:26b...
@@ -206,11 +202,6 @@ goto :EXTENSIONS
 
 :SELECT_MODELS
 echo.
-if "%NEED_E4B%"=="1" (
-    set /p P1="    Pull gemma4:e4b (9.6 GB)? (Y/N): "
-    if /i "!P1!"=="Y" ollama pull gemma4:e4b
-) else echo    gemma4:e4b - already installed
-
 if "%NEED_26B%"=="1" (
     set /p P2="    Pull gemma4:26b (17 GB)? (Y/N): "
     if /i "!P2!"=="Y" ollama pull gemma4:26b
