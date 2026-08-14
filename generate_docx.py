@@ -5,6 +5,22 @@ from docx import Document
 from docx.shared import Inches, Pt, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
+from docx.oxml import OxmlElement
+
+def add_dynamic_field(run, field_code):
+    fldChar1 = OxmlElement('w:fldChar')
+    fldChar1.set(qn('w:fldCharType'), 'begin')
+    instrText = OxmlElement('w:instrText')
+    instrText.set(qn('xml:space'), 'preserve')
+    instrText.text = field_code
+    fldChar2 = OxmlElement('w:fldChar')
+    fldChar2.set(qn('w:fldCharType'), 'separate')
+    fldChar3 = OxmlElement('w:fldChar')
+    fldChar3.set(qn('w:fldCharType'), 'end')
+    run._r.append(fldChar1)
+    run._r.append(instrText)
+    run._r.append(fldChar2)
+    run._r.append(fldChar3)
 
 def get_mermaid_image(mermaid_text, output_path):
     # Encode the mermaid text to base64
@@ -28,12 +44,9 @@ title.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
 # Thêm các Danh mục theo quy chuẩn
 doc.add_heading('MỤC LỤC', level=1)
-doc.add_paragraph('1. Tổng quan các thảo luận')
-doc.add_paragraph('2. Kiến trúc hệ thống')
-doc.add_paragraph('3. Cơ chế Multi-Agent Cross-Check')
-doc.add_paragraph('4. Danh sách Models (Inventory)')
-doc.add_paragraph('5. Tools Tích Hợp (MCP)')
-doc.add_paragraph('6. Quản lý hệ thống tự động cài đặt')
+p_toc = doc.add_paragraph()
+run_toc = p_toc.add_run()
+add_dynamic_field(run_toc, 'TOC \\o "1-3" \\h \\z \\u')
 
 doc.add_heading('DANH MỤC HÌNH ẢNH', level=1)
 doc.add_paragraph('Hình 1: Sơ đồ khối luồng xử lý và định tuyến từ Prompt của người dùng')
@@ -171,6 +184,26 @@ steps = [
 ]
 for i, step in enumerate(steps, 1):
     doc.add_paragraph(f"{i}. {step}", style='List Number')
+
+# Thêm cấu hình updateFields tự động cập nhật TOC
+element_updatefields = OxmlElement('w:updateFields')
+element_updatefields.set(qn('w:val'), 'true')
+doc.settings.element.append(element_updatefields)
+
+# Header
+section = doc.sections[0]
+header = section.header
+p_head = header.paragraphs[0]
+p_head.text = "Phạm Ngọc Bảy - Liên hệ Zalo: 0972290107"
+p_head.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+
+# Footer
+footer = section.footer
+p_foot = footer.paragraphs[0]
+p_foot.text = "Trang "
+p_foot.alignment = WD_ALIGN_PARAGRAPH.CENTER
+run_foot = p_foot.add_run()
+add_dynamic_field(run_foot, 'PAGE')
 
 # Save document
 doc.save(r'C:\DEMO AI AGENT\ollama-smart-router\Ollama_Smart_Router_Documentation.docx')
