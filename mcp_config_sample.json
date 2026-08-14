@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "ollama": {
+      "args": [
+        "C:/Users/YOUR_USERNAME/.gemini/antigravity/ollama_mcp.py"
+      ],
+      "command": "C:/Users/YOUR_USERNAME/AppData/Local/Programs/Python/Python312/python.exe"
+    }
+  }
+}
